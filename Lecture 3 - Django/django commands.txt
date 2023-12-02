@@ -1,0 +1,13 @@
+#Start project
+django-admin startproject lecture3
+
+#Run project server
+python manage.py runserver
+
+#Migrate to database
+python manage.py migrate
+
+#Add new app
+python manage.py startapp tasks
+
+
