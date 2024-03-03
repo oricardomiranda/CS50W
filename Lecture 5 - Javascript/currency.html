@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Currency Exchange</title>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+
+                document.querySelector("form").onsubmit = function() {
+
+                    fetch("http://api.exchangeratesapi.io/v1/latest?access_key=b304e6fda8e4b1c1a978cfa0697c9786")
+                        .then(response => response.json())
+                        .then(data => {
+                            const currency = document.querySelector("#currency").value.toUpperCase;
+                            const rate = data.rates[currency];
+                            if (rate !== undefined) {
+                                document.querySelector("#result").innerHTML = `1 EUR is equal to ${rate.toFixed(3)} ${currency}.`;
+                            } else {
+                                document.querySelector("#result").innerHTML = "Invalid Currency";
+                            }
+                        })
+
+                        .catch(error => {} {
+                            console.log("Error", error);
+                        });
+
+                    return false;
+                }
+
+            });
+        </script>
+    </head>
+
+    <body>
+        <form>
+            <input id="currency" placeholder="Currency" type="text">
+            <input type="submit" value="Convert">
+        </form>
+        <br>
+        <div id="result"></div>
+    </body>
+
+</html>

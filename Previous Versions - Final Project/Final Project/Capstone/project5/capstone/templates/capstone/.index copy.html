@@ -1,0 +1,56 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+{% block body %}
+    <!-- <script src="{% static 'capstone/index.js' %}"></script> -->
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Main content area -->
+            <div class="col-lg-9 ml-2">
+                <div class="body">
+                    <div><br></div>
+                    <div class="container" style="margin: 5 20px;">
+                        <div class="all_post_view">
+                            <h7>Who am I</h7>
+                                <div class="animated-text">
+                                    <p>Ricardo Miranda</p>
+                                    <p>I used to be a Nurse</p>
+                                    <p>Decided to change career</p>
+                                    <p>And I am always ready to learn more</p>
+                                </div>
+                        </div>
+                        <!--Skills-->
+                        <p><br></p>
+                        <h7>About Me</h7>
+                        <div class="animated-text">
+                            <p>QA Engineer in Fintech</p>
+                            <p>Java backend tester in Linux servers</p>
+                            <p>Interested in progressing into automation</p>
+                            <p>Completing CS50W: Web Development</p>
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/qa.svg" hidden>
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/shell.svg" hidden>
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/python.svg" hidden>
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/java.svg" hidden>
+                        </div>
+                        <p><br></p>
+                        <p>Add fetch recommendations</p>
+                    </div>
+                    <nav aria-label="Page navigation example">
+                        <ul class="mx-5 pagination">
+                            {% if page_posts.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_posts.previous_page_number }}">Previous</a></li>
+                            {% endif %}
+                            {% if page_posts.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_posts.next_page_number }}">Next</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- Additional column for the timeline -->
+            <div class="col-lg-3" style="margin-left: auto; width: 10%;">
+                <!-- Timeline content was removed -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
