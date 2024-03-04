@@ -91,7 +91,7 @@ function loadTimeline() {
                         const editButton = document.createElement('button');
                         editButton.classList.add('btn');
                         editButton.classList.add('btn-primary');
-                        editButton.id = "timelineEdit";
+                        editButton.id = "timelineEditButton";
                         editButton.textContent = 'Edit';
                         editButton.addEventListener('click', () => {
                             displayPostModal(item.id, item.year, item.subject, item.content);
@@ -357,6 +357,7 @@ function displayPostModal(itemId, year, subject, content) {
     var submitButton = document.createElement('button');
     submitButton.type = 'submit';
     submitButton.className = 'btn btn-primary';
+    submitButton.id = 'submitButton';
     submitButton.textContent = 'Submit';
     form.appendChild(yearInput);
     form.appendChild(subjectInput);
