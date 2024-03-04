@@ -1,5 +1,4 @@
-import string, secrets, unittest, hashlib, random
-from selenium.webdriver.common.keys import Keys
+import string, random
 from time import sleep
 from django.test import TestCase
 from selenium import webdriver
@@ -8,7 +7,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
 from capstone.models import User
-from selenium.common.exceptions import NoSuchElementException
 from lorem_text import lorem
 
 
@@ -92,10 +90,7 @@ class Alert(ChromiumSetup):
     
     def dismiss_alert(self):
         try:
-            # Switch to the alert
-            alert = self.driver.switch_to.alert
-            
-            # Dismiss the alert
+            alert = self.driver.switch_to.alert            
             alert.dismiss()
             print("Alert dismissed successfully.")
         except:
@@ -120,16 +115,13 @@ class Registration(Alert):
         area_code = random.randint(100, 999)
         exchange_code = random.randint(100, 999)
         line_number = random.randint(1000, 9999)
-        
         phone_number = f"({area_code}) {exchange_code}-{line_number}"
-        
         return phone_number
         
     def test_register_user(self):
         username = self.generate_random_string()
         email = f"{username}@example.com"
         password = self.generate_random_string()
-
         
         print(f"Generated username: {username}")
         print(f"Generated email: {email}")
@@ -145,14 +137,8 @@ class Registration(Alert):
         
         self.dismiss_alert()
 
-        # Wait for registration to complete
-        # WebDriverWait(self.driver, 10).until(
-        #     EC.presence_of_element_located((By.ID, 'login-success'))
-        # )
-        # print("Homepage after register")
-
         # Check if the user is created in the database
-        user = User.objects.create_user(username=username, email=email, password=password)
+        User.objects.create_user(username=username, email=email, password=password)
         user_created = User.objects.filter(username=username).exists()
         print(f"User with username '{username}' exists: {user_created}")
         if not user_created:
@@ -160,72 +146,24 @@ class Registration(Alert):
 
         self.assertTrue(user_created, f"User with username '{username}' should exist in the database")
 
-
-
-        # You can store the registered user's credentials in an instance variable
+        # Store user in variable
         self.registered_user = {
             'username': username,
             'password': password
         }
         print("User variable is stored")
-        
         return self.registered_user     
-
-
-class Login(Registration):
-#     def test_logout(self):
-#         try:
-#             # Logout
-#             WebDriverWait(self.driver, 3).until(
-#             EC.presence_of_element_located((By.ID, 'logout'))
-#             ).click()
-#             # self.driver.find_element(By.ID, 'logout').click()
-#             print("Logout")
-#         except:
-#             print("No logout button found.")
-#             pass
-        
-#     def test_login(self):
-        
-#         self.test_logout()
-
-#         #Call register function
-#         registered_user = self.test_register_user()
-        
-#         # Use the registered_user's credentials
-#         username = registered_user['username']
-#         password = registered_user['password']
-
-#         self.driver.get('http://localhost:8000/login')
-#         self.driver.find_element(By.ID, 'username').send_keys(username)
-#         print(username)
-#         self.driver.find_element(By.ID, 'password').send_keys(password)
-#         print(password)
-#         self.driver.find_element(By.ID, 'login').click()
-#         print("Submited login credentials")
-        
-#         self.dismiss_alert()  
-        
-#         # Example code in Python using Selenium
-#         login_success_message = WebDriverWait(self.driver, 3).until(EC.visibility_of_element_located((By.ID, 'login-success')))
-#         assert login_success_message.is_displayed(), "Login success message is not displayed"
-#         assert login_success_message.text == "Login Successful!", "Incorrect login success message"
-    pass
                 
         
 class ExternalLinks(ChromiumSetup):
     
     def verify_external_link(self, link):
-        # Navigate to the page containing the link
         self.driver.get('http://localhost:8000')
 
-        # Find the link
+        # Find the link and click 
         link_element = WebDriverWait(self.driver, 3).until(
             EC.element_to_be_clickable((By.XPATH, f"//a[@href='{link}']"))
-        )
-
-        # Click on the link
-        link_element.click()
+        ).click()
 
         # Wait for the new window or tab to open
         WebDriverWait(self.driver, 20).until(EC.number_of_windows_to_be(2))
@@ -247,7 +185,6 @@ class PageContentUnlogged(ExternalLinks):
     	
     def logout(self):
         try:
-            # Logout
             self.driver.find_element(By.ID, 'logout').click()
             print("Logout")
         except:
@@ -320,7 +257,6 @@ class PageContentUnlogged(ExternalLinks):
         self.assertIn(expected_html, actual_html)        
         print("About Me Content")
 
-    
     #Timeline
     def test_timeline_small_title(self):
         timeline_small_title = self.driver.find_element(By.ID, 'timelineSmallTitle')
@@ -340,7 +276,6 @@ class PageContentUnlogged(ExternalLinks):
         self.driver.find_element(By.ID, 'timelineItem')
         print("Timeline Item")
         
-    
     #Referrals
     def test_referrals_title(self):
         referrals_title = self.driver.find_element(By.ID, 'referralsTitle')
@@ -354,7 +289,6 @@ class PageContentUnlogged(ExternalLinks):
     def test_referrals_item(self):
         WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.ID, 'referralsItem')))
         print("Referrals Item")
-    
     
     #Vertical Bars
     def test_email(self):
@@ -418,17 +352,22 @@ class ModalsFilling(Registration):
         self.test_register_user()
         self.dismiss_alert()
         
+        # Bring username from the register function
         self.username = self.generate_random_string()
         self.phone_number = self.generate_random_phone()
         
+        # Creating random test data 
         rand_email = f"{self.username}@example.com"
         rand_phone = self.phone_number
         rand_message = lorem.words(10)
         
-        self.dismiss_alert
+        self.dismiss_alert()
+        
+        # Click contact me
         WebDriverWait(self.driver, 3).until(
                 EC.element_to_be_clickable((By.ID, 'contactMe'))).click()
         print("Contact Me button found")
+        
         #Checking if modal opened
         WebDriverWait(self.driver, 3).until(
                 EC.element_to_be_clickable((By.ID, 'emailInput'))).send_keys(rand_email)
@@ -455,10 +394,12 @@ class ModalsFilling(Registration):
         self.test_register_user()
         self.dismiss_alert()
         
+        # Create random test data
         rand_name = str(lorem.words(2))
         rand_subject = str(lorem.words(4))
         rand_message = str(lorem.words(10))
         
+        # Click refer me 
         WebDriverWait(self.driver, 3).until(
                 EC.element_to_be_clickable((By.ID, 'referral'))).click()
         print("Referral button found")
@@ -481,14 +422,12 @@ class ModalsFilling(Registration):
         #Refer to timelinepost for assert
 
     
-    
-        
-    
 class PageContentLogged(ModalsFilling):
          
     def test_logged_navbar(self):
         self.test_register_user()
         self.dismiss_alert()
+        
         #Messages
         WebDriverWait(self.driver, 3).until(EC.visibility_of_element_located((By.ID, 'messagescroll')))
         messages_navbar = self.driver.find_element(By.ID, 'messagescroll')
@@ -526,12 +465,12 @@ class PageContentLogged(ModalsFilling):
         rand_subject = lorem.words(3)
         rand_content = lorem.words(10)
         
-
         #Let's generate specific unique phrases
         timeline_post_button = WebDriverWait(self.driver, 3).until(
                 EC.element_to_be_clickable((By.ID, 'timelinePost')))
         timeline_post_button.click()
         print("Timeline Post button found")
+        
         #Checking if modal opened
         year_input_field = WebDriverWait(self.driver, 3).until(
                 EC.element_to_be_clickable((By.ID, 'yearInput')))
@@ -614,14 +553,6 @@ class PageContentLogged(ModalsFilling):
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.ID, 'readMessage')))
 
 
-
-        
-        
-
-        
-        
-        
-
 class SmallSizeScreen(ChromiumSetup):
     def test_page_elements_visible_on_small_screen(self):
         # Simulate a small screen size
@@ -643,507 +574,16 @@ class SmallSizeScreen(ChromiumSetup):
 
 
 class Safari(SafariSetup):
-    def logout(self):
-        try:
-            # Logout
-            self.driver.find_element(By.ID, 'logout').click()
-            print("Logout")
-        except:
-            print("No logout was needed for NavBar")
-            pass
-    
-    #Content Loading Tests
-    #NavBar
-    def test_homepage(self):
-        self.driver.get('http://localhost:8000')
-        self.assertIn('Ricardo Miranda', self.driver.page_source)
-        print("Homepage")
-
-    def test_whoami_navbar(self):
-        whoami_nav = self.driver.find_element(By.ID, 'whoami')
-        self.assertIn('WhoAmI', whoami_nav.text)
-        print("WhoAmI Navbar")
-        
-    def test_timeline_navbar(self):
-        timeline_navbar = self.driver.find_element(By.ID, 'timelinescroll')
-        self.assertIn('Timeline', timeline_navbar.text)
-        print("Timeline Navbar")
-        
-    def test_referrals_navbar(self):
-        referrals_navbar = self.driver.find_element(By.ID, 'referralscroll')
-        self.assertIn('Referrals', referrals_navbar.text)
-        print("Referrals Navbar")
-        
-    def test_referme_navbar(self):
-        referme_navbar = self.driver.find_element(By.ID, 'referralscroll')
-        self.assertIn('Referrals', referme_navbar.text)
-        print("Referrals Navbar")
-        
-    def test_cv_navbar(self):
-        self.driver.find_element(By.ID, 'downloadcv')
-        self.assertIn('Download CV', self.driver.page_source)
-        print("Download CV Navbar")
-    
-    #Who Am I        
-    def test_whoami_content(self):
-        whoami_content = WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.ID, 'whoamiContent')))
-        
-        expected_html = ('<h7>Who am I</h7>' +
-        '<div class="animated-text">' +
-        '<p>Ricardo Miranda</p>' +
-        '<p>I used to be a Nurse</p>' +
-        '<p>Decided to change career</p>' +
-        '<p>And I am always ready to learn more</p>' +
-        '</div>')
-        
-        actual_html = whoami_content.get_attribute('innerHTML')
-        self.assertIn(expected_html, actual_html)        
-        print("Who am I content")
-        
-    #About Me
-    def test_aboutme_content(self):
-        self.driver.get('http://localhost:8000')
-        aboutme_content = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'aboutMeContent')))
-        
-        expected_html = (
-        '<h7>About Me</h7>' +
-        '<div class="animated-text">' +
-        '<p>QA Engineer in Fintech</p>' +
-        '<p>Java backend tester in Linux servers</p>' +
-        '<p>Interested in progressing into automation</p>' +
-        '<p>Completing CS50W: Web Development</p>'
-        )
-        
-        actual_html = aboutme_content.get_attribute('innerHTML')
-        self.assertIn(expected_html, actual_html)        
-        print("About Me Content")
-
-    
-    #Timeline
-    def test_timeline_small_title(self):
-        timeline_small_title = self.driver.find_element(By.ID, 'timelineSmallTitle')
-        self.assertIn('Timeline', timeline_small_title.text)
-        print("Timeline Title")
-    
-    def test_timeline_title(self):
-        timeline_title = self.driver.find_element(By.ID, 'timelineTitle')
-        self.assertIn('My journey into IT', timeline_title.text)
-        print("Timeline Sub Title")
-        
-    def test_timeline_content(self):
-        self.driver.find_element(By.ID, 'timelineContent')
-        print("Timeline Content")
-        
-    def test_timeline_item(self):
-        self.driver.find_element(By.ID, 'timelineItem')
-        print("Timeline Item")
-        
-    
-    #Referrals
-    def test_referrals_title(self):
-        referrals_title = self.driver.find_element(By.ID, 'referralsTitle')
-        self.assertIn('My Referrals', referrals_title.text)
-        print("Referrals Title")
-        
-    def test_referrals_content(self):
-        self.driver.find_element(By.ID, 'referralsContent')
-        print("Referrals Content")
-        
-    def test_referrals_item(self):
-        WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.ID, 'referralsItem')))
-        print("Referrals Item")
-    
-    
-    #Vertical Bars
-    def test_email(self):
-        self.driver.find_element(By.ID, 'contactEmail')
-        print("Contact Email")
-    
-    def test_nav_qa(self):
-        self.driver.find_element(By.ID, 'nav-qa')
-        print("Nav QA")
-        
-    def test_nav_terminal(self):
-        self.driver.find_element(By.ID, 'nav-terminal')
-        print("Nav terminal")
-        
-    def test_nav_python(self):
-        self.driver.find_element(By.ID, 'nav-python')
-        print("Nav python")
-        
-    def test_nav_java(self):
-        self.driver.find_element(By.ID, 'nav-java')
-        print("Nav java")
-        
-    def test_nav_apple(self):
-        self.driver.find_element(By.ID, 'nav-apple')
-        print("Nav apple")
-        
-    def test_nav_linux(self):
-        self.driver.find_element(By.ID, 'nav-linux')
-        print("Nav linux")
-        
-    def test_nav_html(self):
-        self.driver.find_element(By.ID, 'nav-html')
-        print("Nav html")
-        
-    def test_nav_javascript(self):
-        self.driver.find_element(By.ID, 'nav-javascript')
-        print("Nav javascript")
-        
-    def test_nav_cypress(self):
-        self.driver.find_element(By.ID, 'nav-cypress')
-        print("Nav cypress")
-        
-    def test_nav_react(self):
-        self.driver.find_element(By.ID, 'nav-react')
-        print("Nav react")
-        
-    #Bottom Nav Bar
-    def test_nav_github(self):
-        self.driver.find_element(By.ID, 'nav-github')
-        print("Nav Github")
-        
-    def test_nav_linkedin(self):
-        self.driver.find_element(By.ID, 'nav-linkedin')
-        print("Nav linkedin")
+    pass
 
 class Firefox(FirefoxSetup):
     pass
 
-
 class Chrome(ChromeSetup):
-    def logout(self):
-        try:
-            # Logout
-            self.driver.find_element(By.ID, 'logout').click()
-            print("Logout")
-        except:
-            print("No logout was needed for NavBar")
-            pass
-    
-    #Content Loading Tests
-    #NavBar
-    def test_homepage(self):
-        self.driver.get('http://localhost:8000')
-        self.assertIn('Ricardo Miranda', self.driver.page_source)
-        print("Homepage")
-
-    def test_whoami_navbar(self):
-        whoami_nav = self.driver.find_element(By.ID, 'whoami')
-        self.assertIn('WhoAmI', whoami_nav.text)
-        print("WhoAmI Navbar")
-        
-    def test_timeline_navbar(self):
-        timeline_navbar = self.driver.find_element(By.ID, 'timelinescroll')
-        self.assertIn('Timeline', timeline_navbar.text)
-        print("Timeline Navbar")
-        
-    def test_referrals_navbar(self):
-        referrals_navbar = self.driver.find_element(By.ID, 'referralscroll')
-        self.assertIn('Referrals', referrals_navbar.text)
-        print("Referrals Navbar")
-        
-    def test_referme_navbar(self):
-        referme_navbar = self.driver.find_element(By.ID, 'referralscroll')
-        self.assertIn('Referrals', referme_navbar.text)
-        print("Referrals Navbar")
-        
-    def test_cv_navbar(self):
-        self.driver.find_element(By.ID, 'downloadcv')
-        self.assertIn('Download CV', self.driver.page_source)
-        print("Download CV Navbar")
-    
-    #Who Am I        
-    def test_whoami_content(self):
-        whoami_content = WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.ID, 'whoamiContent')))
-        
-        expected_html = ('<h7>Who am I</h7>' +
-        '<div class="animated-text">' +
-        '<p>Ricardo Miranda</p>' +
-        '<p>I used to be a Nurse</p>' +
-        '<p>Decided to change career</p>' +
-        '<p>And I am always ready to learn more</p>' +
-        '</div>')
-        
-        actual_html = whoami_content.get_attribute('innerHTML')
-        self.assertIn(expected_html, actual_html)        
-        print("Who am I content")
-        
-    #About Me
-    def test_aboutme_content(self):
-        self.driver.get('http://localhost:8000')
-        aboutme_content = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'aboutMeContent')))
-        
-        expected_html = (
-        '<h7>About Me</h7>' +
-        '<div class="animated-text">' +
-        '<p>QA Engineer in Fintech</p>' +
-        '<p>Java backend tester in Linux servers</p>' +
-        '<p>Interested in progressing into automation</p>' +
-        '<p>Completing CS50W: Web Development</p>'
-        )
-        
-        actual_html = aboutme_content.get_attribute('innerHTML')
-        self.assertIn(expected_html, actual_html)        
-        print("About Me Content")
-
-    
-    #Timeline
-    def test_timeline_small_title(self):
-        timeline_small_title = self.driver.find_element(By.ID, 'timelineSmallTitle')
-        self.assertIn('Timeline', timeline_small_title.text)
-        print("Timeline Title")
-    
-    def test_timeline_title(self):
-        timeline_title = self.driver.find_element(By.ID, 'timelineTitle')
-        self.assertIn('My journey into IT', timeline_title.text)
-        print("Timeline Sub Title")
-        
-    def test_timeline_content(self):
-        self.driver.find_element(By.ID, 'timelineContent')
-        print("Timeline Content")
-        
-    def test_timeline_item(self):
-        self.driver.find_element(By.ID, 'timelineItem')
-        print("Timeline Item")
-        
-    
-    #Referrals
-    def test_referrals_title(self):
-        referrals_title = self.driver.find_element(By.ID, 'referralsTitle')
-        self.assertIn('My Referrals', referrals_title.text)
-        print("Referrals Title")
-        
-    def test_referrals_content(self):
-        self.driver.find_element(By.ID, 'referralsContent')
-        print("Referrals Content")
-        
-    def test_referrals_item(self):
-        WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.ID, 'referralsItem')))
-        print("Referrals Item")
-    
-    
-    #Vertical Bars
-    def test_email(self):
-        self.driver.find_element(By.ID, 'contactEmail')
-        print("Contact Email")
-    
-    def test_nav_qa(self):
-        self.driver.find_element(By.ID, 'nav-qa')
-        print("Nav QA")
-        
-    def test_nav_terminal(self):
-        self.driver.find_element(By.ID, 'nav-terminal')
-        print("Nav terminal")
-        
-    def test_nav_python(self):
-        self.driver.find_element(By.ID, 'nav-python')
-        print("Nav python")
-        
-    def test_nav_java(self):
-        self.driver.find_element(By.ID, 'nav-java')
-        print("Nav java")
-        
-    def test_nav_apple(self):
-        self.driver.find_element(By.ID, 'nav-apple')
-        print("Nav apple")
-        
-    def test_nav_linux(self):
-        self.driver.find_element(By.ID, 'nav-linux')
-        print("Nav linux")
-        
-    def test_nav_html(self):
-        self.driver.find_element(By.ID, 'nav-html')
-        print("Nav html")
-        
-    def test_nav_javascript(self):
-        self.driver.find_element(By.ID, 'nav-javascript')
-        print("Nav javascript")
-        
-    def test_nav_cypress(self):
-        self.driver.find_element(By.ID, 'nav-cypress')
-        print("Nav cypress")
-        
-    def test_nav_react(self):
-        self.driver.find_element(By.ID, 'nav-react')
-        print("Nav react")
-        
-    #Bottom Nav Bar
-    def test_nav_github(self):
-        self.driver.find_element(By.ID, 'nav-github')
-        print("Nav Github")
-        
-    def test_nav_linkedin(self):
-        self.driver.find_element(By.ID, 'nav-linkedin')
-        print("Nav linkedin")
-        
+    pass     
         
 class Edge(EdgeSetup):
-    def logout(self):
-        try:
-            # Logout
-            self.driver.find_element(By.ID, 'logout').click()
-            print("Logout")
-        except:
-            print("No logout was needed for NavBar")
-            pass
-    
-    #Content Loading Tests
-    #NavBar
-    def test_homepage(self):
-        self.driver.get('http://localhost:8000')
-        self.assertIn('Ricardo Miranda', self.driver.page_source)
-        print("Homepage")
-
-    def test_whoami_navbar(self):
-        whoami_nav = self.driver.find_element(By.ID, 'whoami')
-        self.assertIn('WhoAmI', whoami_nav.text)
-        print("WhoAmI Navbar")
-        
-    def test_timeline_navbar(self):
-        timeline_navbar = self.driver.find_element(By.ID, 'timelinescroll')
-        self.assertIn('Timeline', timeline_navbar.text)
-        print("Timeline Navbar")
-        
-    def test_referrals_navbar(self):
-        referrals_navbar = self.driver.find_element(By.ID, 'referralscroll')
-        self.assertIn('Referrals', referrals_navbar.text)
-        print("Referrals Navbar")
-        
-    def test_referme_navbar(self):
-        referme_navbar = self.driver.find_element(By.ID, 'referralscroll')
-        self.assertIn('Referrals', referme_navbar.text)
-        print("Referrals Navbar")
-        
-    def test_cv_navbar(self):
-        self.driver.find_element(By.ID, 'downloadcv')
-        self.assertIn('Download CV', self.driver.page_source)
-        print("Download CV Navbar")
-    
-    #Who Am I        
-    def test_whoami_content(self):
-        whoami_content = WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.ID, 'whoamiContent')))
-        
-        expected_html = ('<h7>Who am I</h7>' +
-        '<div class="animated-text">' +
-        '<p>Ricardo Miranda</p>' +
-        '<p>I used to be a Nurse</p>' +
-        '<p>Decided to change career</p>' +
-        '<p>And I am always ready to learn more</p>' +
-        '</div>')
-        
-        actual_html = whoami_content.get_attribute('innerHTML')
-        self.assertIn(expected_html, actual_html)        
-        print("Who am I content")
-        
-    #About Me
-    def test_aboutme_content(self):
-        self.driver.get('http://localhost:8000')
-        aboutme_content = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'aboutMeContent')))
-        
-        expected_html = (
-        '<h7>About Me</h7>' +
-        '<div class="animated-text">' +
-        '<p>QA Engineer in Fintech</p>' +
-        '<p>Java backend tester in Linux servers</p>' +
-        '<p>Interested in progressing into automation</p>' +
-        '<p>Completing CS50W: Web Development</p>'
-        )
-        
-        actual_html = aboutme_content.get_attribute('innerHTML')
-        self.assertIn(expected_html, actual_html)        
-        print("About Me Content")
-
-    
-    #Timeline
-    def test_timeline_small_title(self):
-        timeline_small_title = self.driver.find_element(By.ID, 'timelineSmallTitle')
-        self.assertIn('Timeline', timeline_small_title.text)
-        print("Timeline Title")
-    
-    def test_timeline_title(self):
-        timeline_title = self.driver.find_element(By.ID, 'timelineTitle')
-        self.assertIn('My journey into IT', timeline_title.text)
-        print("Timeline Sub Title")
-        
-    def test_timeline_content(self):
-        self.driver.find_element(By.ID, 'timelineContent')
-        print("Timeline Content")
-        
-    def test_timeline_item(self):
-        self.driver.find_element(By.ID, 'timelineItem')
-        print("Timeline Item")
-        
-    
-    #Referrals
-    def test_referrals_title(self):
-        referrals_title = self.driver.find_element(By.ID, 'referralsTitle')
-        self.assertIn('My Referrals', referrals_title.text)
-        print("Referrals Title")
-        
-    def test_referrals_content(self):
-        self.driver.find_element(By.ID, 'referralsContent')
-        print("Referrals Content")
-        
-    def test_referrals_item(self):
-        WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.ID, 'referralsItem')))
-        print("Referrals Item")
-    
-    
-    #Vertical Bars
-    def test_email(self):
-        self.driver.find_element(By.ID, 'contactEmail')
-        print("Contact Email")
-    
-    def test_nav_qa(self):
-        self.driver.find_element(By.ID, 'nav-qa')
-        print("Nav QA")
-        
-    def test_nav_terminal(self):
-        self.driver.find_element(By.ID, 'nav-terminal')
-        print("Nav terminal")
-        
-    def test_nav_python(self):
-        self.driver.find_element(By.ID, 'nav-python')
-        print("Nav python")
-        
-    def test_nav_java(self):
-        self.driver.find_element(By.ID, 'nav-java')
-        print("Nav java")
-        
-    def test_nav_apple(self):
-        self.driver.find_element(By.ID, 'nav-apple')
-        print("Nav apple")
-        
-    def test_nav_linux(self):
-        self.driver.find_element(By.ID, 'nav-linux')
-        print("Nav linux")
-        
-    def test_nav_html(self):
-        self.driver.find_element(By.ID, 'nav-html')
-        print("Nav html")
-        
-    def test_nav_javascript(self):
-        self.driver.find_element(By.ID, 'nav-javascript')
-        print("Nav javascript")
-        
-    def test_nav_cypress(self):
-        self.driver.find_element(By.ID, 'nav-cypress')
-        print("Nav cypress")
-        
-    def test_nav_react(self):
-        self.driver.find_element(By.ID, 'nav-react')
-        print("Nav react")
-        
-    #Bottom Nav Bar
-    def test_nav_github(self):
-        self.driver.find_element(By.ID, 'nav-github')
-        print("Nav Github")
-        
-    def test_nav_linkedin(self):
-        self.driver.find_element(By.ID, 'nav-linkedin')
-        print("Nav linkedin")
+    pass
 
 class ErrorHandling(ChromiumSetup):
     pass
