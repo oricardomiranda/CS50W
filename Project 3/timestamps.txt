@@ -1,0 +1,5 @@
+0:00 - Send Mail
+0:24 - Mailbox
+0:42 - View Email
+0:56 - Archive/Unarchive
+1:16 - Reply

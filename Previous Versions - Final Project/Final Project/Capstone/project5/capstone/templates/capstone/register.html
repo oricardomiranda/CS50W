@@ -1,0 +1,47 @@
+{% extends "capstone/layout.html" %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main content area -->
+        <div class="col-lg-9 ml-2">
+            <div class="body">
+                <div><br></div>
+                <div class="container" style="margin: -50px 120px;">
+                    <div class="all_post_view">
+                        <h1>Register</h1>
+
+                        {% if message %}
+                            <div>{{ message }}</div>
+                        {% endif %}
+
+                        <form action="{% url 'register' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="email" name="email" placeholder="Email Address">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password" name="password" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+                            </div>
+                            <input class="btn btn-primary" type="submit" name="register" value="Register">
+                        </form>
+                        <br>
+                        Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+
+                    </div>
+            </div>
+        </div>
+        <!-- Additional column for the timeline -->
+        <div class="col-lg-3" style="margin-left: auto; width: 10%;">
+            <!-- Timeline content was removed -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}

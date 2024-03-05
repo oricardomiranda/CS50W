@@ -1,0 +1,24 @@
+<link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+<div class="toolkit-icons-confortable-big">
+	<i class="devicon-apple-original colored"></i>
+	<i class="devicon-ubuntu-plain colored"></i>
+	<i class="devicon-unix-original colored"></i>                
+	<i class="devicon-jira-plain-wordmark colored"></i>
+	<i class="devicon-vscode-plain-wordmark colored"></i>
+	<i class="devicon-apache-plain-wordmark colored"></i>
+	<i class="devicon-azuresqldatabase-plain colored"></i>
+	<i class="devicon-github-original-wordmark"></i>
+	<i class="devicon-python-plain colored"></i>
+	<i class="devicon-sqldeveloper-plain"></i>
+</div> 
+<div class="toolkit-icons-learning-mid">
+	<i class="devicon-java-plain colored"></i>
+	<i class="devicon-html5-plain colored"></i>
+	<i class="devicon-intellij-plain colored"></i>
+	<i class="devicon-django-plain"></i>
+	<i class="devicon-bitbucket-original-wordmark"></i>
+	<i class="devicon-selenium-original colored"></i>
+</div>
+<div class="toolkit-icons-newbie-small">
+</div>

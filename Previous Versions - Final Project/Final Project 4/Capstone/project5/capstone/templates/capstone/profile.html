@@ -1,0 +1,90 @@
+{% extends "capstone/layout.html" %}
+
+{% block body %}
+    <div class="title">
+        <h1>{{ username }}'s Profile</h1>
+        {% if user.is_authenticated %}
+            {% if user != user_profile %}
+                {% if is_following %}
+                    <form action="{% url 'unfollow' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="userfollow" value="{{ user_profile }}">
+                        <input type="submit" value="Unfollow" class="btn btn-secondary">
+                    </form>
+                {% else %}
+                    <form action="{% url 'follow' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="userfollow" value="{{ user_profile }}">
+                        <input type="submit" value="Follow" class="btn btn-primary">
+                    </form>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="title  row d-flex justify-content-center">
+        <h3 class="col-4">Followers: {{ followers.count }}</h3>
+        <h3 class="col-4">Following: {{ following.count }}</h3>
+    </div>
+    <p></p>
+
+    <div class="title">
+        <h3>My Posts:</h3>
+    </div>
+    <div class="all_post_view">
+        {% for post in page_posts %}
+            <div class="form-group border rounded-1">
+                <a class="username" href="{% url 'profile' user_id=post.user.id %}">{{ post.user }}</a>
+                <br>
+                {% if user.is_authenticated %}
+                    {% if post.user == user %}
+                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_edit_post_{{ post.id }}">Edit</button>
+        <!--Pop-up for editing-->
+                        <div class="modal fade" id="modal_edit_post_{{ post.id }}" tabindex="-1" aria-labelledby="modal_edit_post_{{ post.id }}" aria-hidden="False">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit Post</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <textarea rows="5" id="textarea_{{ post.id }}" class="form-control" name="message">{{ post.message }}</textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="submitChanges({{ post.id }})">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% if post.id in user_liked %}
+                            <button class="btn btn-outline-primary fa fa-thumbs-down" onclick="likeHandler({{ post.id }}, {{ user_liked|safe }}, 'unlike')" id="{{ post.id }}"></button>
+                        {% else %}
+                            <button class="btn btn-outline-primary fa fa-thumbs-up" onclick="likeHandler({{ post.id }}, {{ user_liked|safe }}, 'like')" id="{{ post.id }}"></button>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                <p></p>
+                {% if post.likes == 1 %}
+                    <h2 id="count_like_{{ post.id }}" class="like">{{ post.likes }} like</h2>
+                {% else %}
+                    <h2 id="count_like_{{ post.id }}" class="like">{{ post.likes }} likes</h2>
+                {% endif %}
+                <p class="message" id="message_{{ post.id }}">{{ post.message }}</p>
+                <p class="date">{{ post.date }}</p>
+        <!-- <p>Comment</p> -->
+            </div>
+        {% endfor %}
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="mx-5 pagination">
+            {% if page_posts.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_posts.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            {% if page_posts.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_posts.next_page_number }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

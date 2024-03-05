@@ -1,0 +1,334 @@
+body {
+    background-color: #0a192f;
+    font-family: Helvetica, sans-serif;
+    color: #64ffda;
+}
+
+.centered {
+    width: 100%;
+    /* Adjust width as needed */
+    /*margin: 0 auto; /* This centers the div horizontally */
+    padding: 20px;
+    /* Add padding for spacing */
+    text-align: center;
+    /* Center text inside the div */
+    white-space: nowrap;
+    /* Prevent wrapping */
+}
+
+.centered img {
+    display: inline-block;
+    /* Display images as inline-block */
+    /*width: 100px; /* Adjust width as needed */
+    height: auto;
+    /* Maintain aspect ratio */
+    margin: 0 10px;
+    /* Add margin between images */
+}
+
+
+
+.title {
+    padding: 10px;
+    margin: 10px;
+}
+
+.form-group {
+    padding: 10px;
+    margin: 10px;
+}
+
+.username {
+    font-size: 22px;
+}
+
+.date {
+    color: gray;
+    font-size: 15px;
+}
+
+.like {
+    font-size: 12px;
+}
+
+.navbar {
+    background-color: transparent;
+    color: #64ffda;
+    /* Set the text color */
+}
+
+.navbar a {
+    color: #64ffda;
+    /* Set the text color for links */
+}
+
+
+.navbar.fixed-bottom {
+    background-color: transparent;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    /* Add padding for spacing */
+}
+
+/*Vertical Right items*/
+.vertical-align-right {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    /* Rotate the text 90 degrees */
+    right: -120px;
+    padding-right: 5px;
+    /* Add padding to the right for spacing */
+}
+
+.vertical-align-right .navbar-nav {
+    flex-direction: row;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-nav p {
+    margin: 0 -10px;
+    /* Adjust the margin as needed */
+}
+
+/*Vertical Left items*/
+.vertical-align-left {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+}
+
+.vertical-align-left .navbar-nav {
+    flex-direction: column;
+}
+
+
+
+.card img {
+    width: 100%;
+    height: auto;
+}
+
+.card {
+    transition: transform 0.7s;
+    border: 1px transparent;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);  */
+}
+
+
+.card:hover {
+    transform: scale(1.1);
+}
+
+/* Make sure that padding behaves as expected */
+* {
+    box-sizing: border-box
+}
+
+/* Container for skill bars */
+.container {
+    width: 100%;
+}
+
+/*WhoamI and aboutme*/
+.main-container {
+    margin: -70px 130px;
+}
+
+/* Timeline items*/
+.second-container {
+    margin: 150px 130px;
+}
+
+
+.timeline-item {
+    margin-bottom: 20px; /* Adjust this value as needed */
+    padding: 10px; /* Add padding for spacing */
+    border-radius: 10px; /* Add border radius for styling */
+    background-color: #0a192f; /* Background color */
+    color: #64ffda; /* Text color */
+}
+
+.skills {
+    text-align: right;
+    /* Right-align text */
+    padding-top: 10px;
+    /* Add top padding */
+    padding-bottom: 10px;
+    /* Add bottom padding */
+    color: white;
+    /* White text color */
+}
+
+
+/*Toolkit*/
+.toolkit-icons-confortable-big {
+    width: 150px !important;
+    height: auto !important;
+}
+
+.toolkit-icons-learning-mid {
+    width: 90px !important;
+    height: auto !important;
+}
+
+
+/*Nav Bar Buttons*/
+.nav-button {
+    /* background-image: url("static/capstone/icons/All_logo_and_pictures-main/github-green.svg") */
+    width: 40px;
+    /* Adjust width as needed */
+    height: 40px;
+    /* Adjust height as needed */
+    /* Hide default button styles */
+    border: none;
+    padding: 0;
+    background-color: transparent;
+}
+
+/*Modal*/
+/* styles.css */
+
+.modal-content {
+    background-color: #0a192f;
+    border-radius: 10px;
+}
+
+.modal-header {
+    border-bottom: none;
+    background-color: #0a192f;
+}
+
+.modal-title {
+    color: #64ffda;
+    background-color: #0a192f;
+}
+
+.modal-body {
+    padding: 20px;
+    background-color: #0a192f;
+}
+
+.form-control {
+    margin-bottom: 15px;
+    background-color: #0a192f;
+}
+
+.form-control:focus {
+    margin-bottom: 15px;
+    background-color: #0a192f;
+}
+
+.btn-primary {
+    background-color: #0a192f;
+    border-color: #ced4da;
+    color: #64ffda;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #ced4da;
+    color: #64ffda;
+}
+
+.btn-close {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #64ffda;
+    border: none;
+}
+
+
+.btn-close:hover {
+    color: #555;
+    text-decoration: none;
+    background-color: #64ffda;
+}
+
+
+/* Common styles for all paragraphs inside .animated-text */
+.animated-text p {
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    color: #ccd6f6;
+    font-size: 3rem;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: typing 1s ease forwards;
+}
+
+/* Keyframes for the typing animation */
+@keyframes typing {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply different styles or delays for specific paragraphs */
+.animated-text p:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.animated-text p:nth-child(n+2) {
+    animation-delay: 1s;
+    color: #8892b0;
+    font-size: 1.4rem;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+    .animated-text p {
+        font-size: 2rem; /* Adjust font size for smaller screens */
+    }
+    .animated-text p:nth-child(n+2) {
+        font-size: 1rem; /* Adjust font size for smaller screens */
+    }
+}
+
+
+/* Scroll */
+.invisible {
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.visible {
+    opacity: 1;
+}
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.animate {
+    opacity: 1;
+    animation: slide-in 1s ease;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

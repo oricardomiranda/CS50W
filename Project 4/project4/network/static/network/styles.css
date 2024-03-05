@@ -1,0 +1,22 @@
+.title {
+	padding: 10px;
+	margin: 10px;
+}
+
+.form-group {
+	padding: 10px;
+	margin: 10px;
+}
+
+.username {
+	font-size: 22px;
+}
+
+.date {
+	color: gray;
+	font-size: 15px;
+}
+
+.like {
+	font-size: 12px;
+}

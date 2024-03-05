@@ -1,0 +1,81 @@
+{% extends "capstone/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+    <link href="{% static 'capstone/career.css' %}" rel="stylesheet">
+
+    <div class="balloon-title">
+      <h1>Career</h1>
+    </div>
+    <div class="timeline">
+        <div class="container left">
+            <div class="content">
+                <h2>2022</h2>
+                <p>CS50W: Web Development with HTML, CSS and JS</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>2023</h2>
+                <p>CS50: Introduction to Computer Science</p>
+                <p>CS50P: Introduction to Programming with Python</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <h2>2022</h2>
+                <p>Devexperts - Quality Assurance Engineer</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>2022(Change in career)</h2>
+                <p>Rumos - Quality Assurance Tester Academy</p>
+                <p>ISTQB - Certified Tester Foundation Level</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <h2>2022</h2>
+                <p>CHVNG - Registered Nurse in Cardiothoracic Intensive Care Unit</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>2021</h2>
+                <p>Casa de Saúde da Boavista - Endoscopy Registered Nurse</p>
+                <p>Escola Superior de Saúde Norte - Endoscopy Post-Graduation</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <h2>2016</h2>
+                <p>Casa de Saúde da Boavista - Surgery and Orthopedics Registered Nurse</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>2014</h2>
+                <p>Casa de Saúde da Boavista - UCPA Registered Nurse</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <h2>2014</h2>
+                <p>Universidade Católica Portuguesa - Registered Nurse Degree</p>
+            </div>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="mx-5 pagination">
+            {% if page_posts.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_posts.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            {% if page_posts.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_posts.next_page_number }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}
