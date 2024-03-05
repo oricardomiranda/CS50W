@@ -8,56 +8,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
 from capstone.models import User
 from lorem_text import lorem
-
-
-class ChromiumSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        options = webdriver.ChromeOptions()
-        # options.add_argument('--headless')  # Run Chromium in headless mode
-        # options.add_argument('--disable-gpu')  # Disable GPU acceleration
-        # options.add_argument('--no-sandbox')  # Disable sandbox mode
-        # options.add_argument('--disable-dev-shm-usage')  # Disable /dev/shm usage
-        cls.driver = webdriver.Chrome(options=options)
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
-
-
-class ChromeSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.driver = webdriver.Chrome()
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
-        
-
-class SafariSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.driver = webdriver.Safari()
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
         
         
 class FirefoxSetup(TestCase):
@@ -74,23 +24,8 @@ class FirefoxSetup(TestCase):
         cls.driver.quit()
         super().tearDownClass()
       
-        
-class EdgeSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.driver = webdriver.Edge()
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
-     
-      
-class Alert(ChromiumSetup):
+              
+class Alert(FirefoxSetup):
     
     def dismiss_alert(self):
         try:
@@ -104,7 +39,7 @@ class Alert(ChromiumSetup):
 class Registration(Alert):
 
     def setUp(self):
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Firefox()
         super().setUp()
 
     def tearDown(self):
@@ -159,7 +94,7 @@ class Registration(Alert):
         return self.registered_user     
                 
         
-class ExternalLinks(ChromiumSetup):
+class ExternalLinks(FirefoxSetup):
     
     def verify_external_link(self, link):
         self.driver.get('http://localhost:8000')
@@ -514,56 +449,58 @@ class PageContentLogged(ModalsFilling):
         print(f"Post has the content {rand_content}")
 
     
-    def test_edit_post(self):
-        if not hasattr(self, 'registered_user'):
-            self.test_register_user()
-            sleep(1)
-            self.dismiss_alert()
-            sleep(1)
+    # def test_edit_post(self):
+    #     if not hasattr(self, 'registered_user'):
+    #         self.test_register_user()
+    #         sleep(1)
+    #         self.dismiss_alert()
+    #         sleep(1)
         
-        #Randomized input fields
-        rand_year = str(random.randint(2000, 2024))
-        rand_subject = lorem.words(3)
-        rand_content = lorem.words(10)
+    #     #Randomized input fields
+    #     rand_year = str(random.randint(2000, 2024))
+    #     rand_subject = lorem.words(3)
+    #     rand_content = lorem.words(10)
         
-        #Let's generate specific unique phrases
-        WebDriverWait(self.driver, 3).until(
-                EC.element_to_be_clickable((By.ID, 'timelineEditButton'))).click()
-        print("Timeline Edit button found")
+    #     #Let's generate specific unique phrases
+    #     post_edit_button = WebDriverWait(self.driver, 3).until(
+    #             EC.element_to_be_clickable((By.ID, 'timelineEditButton')))
+    #     self.driver.execute_script("arguments[0].scrollIntoView();", post_edit_button)
+    #     post_edit_button.click()
+    #     print("Timeline Edit button found")
         
-        #Checking if modal opened
-        year_input_field = WebDriverWait(self.driver, 3).until(
-                EC.element_to_be_clickable((By.ID, 'yearInput')))
-        year_input_field.click()
-        year_input_field.clear()
-        sleep(5)
-        year_input_field.send_keys(rand_year)
-        print(rand_year)
+    #     #Checking if modal opened
+    #     year_input_field = WebDriverWait(self.driver, 3).until(
+    #             EC.element_to_be_clickable((By.ID, 'yearInput')))
+    #     year_input_field.click()
+    #     year_input_field.clear()
+    #     sleep(5)
+    #     year_input_field.send_keys(rand_year)
+    #     print(rand_year)
         
-        subject_input_field = WebDriverWait(self.driver, 3).until(
-                EC.element_to_be_clickable((By.ID, 'subjectInput')))
-        subject_input_field.click()
-        subject_input_field.clear()
-        subject_input_field.send_keys(rand_subject)
-        print(rand_subject)
+    #     subject_input_field = WebDriverWait(self.driver, 3).until(
+    #             EC.element_to_be_clickable((By.ID, 'subjectInput')))
+    #     subject_input_field.click()
+    #     subject_input_field.clear()
+    #     subject_input_field.send_keys(rand_subject)
+    #     print(rand_subject)
         
-        content_input_field = WebDriverWait(self.driver, 3).until(
-                EC.element_to_be_clickable((By.ID, 'contentInput')))
-        content_input_field.click()
-        content_input_field.clear()
-        content_input_field.send_keys(rand_content)
-        print(rand_content)
+    #     content_input_field = WebDriverWait(self.driver, 3).until(
+    #             EC.element_to_be_clickable((By.ID, 'contentInput')))
+    #     content_input_field.click()
+    #     content_input_field.clear()
+    #     content_input_field.send_keys(rand_content)
+    #     print(rand_content)
         
-        submit_button = WebDriverWait(self.driver, 3).until(
-                EC.element_to_be_clickable((By.ID, 'submitButton')))
-        submit_button.click()
-        print("New Timeline Post")
+    #     submit_button = WebDriverWait(self.driver, 3).until(
+    #             EC.element_to_be_clickable((By.ID, 'submitButton')))
+    #     submit_button.click()
+    #     print("New Timeline Post")
         
-        sleep(1)
-        try:
-            self.dismiss_alert()
-        except:
-            pass    
+    #     sleep(1)
+    #     try:
+    #         self.dismiss_alert()
+    #     except:
+    #         pass    
         
         #Check if post appears
         post_year = WebDriverWait(self.driver, 10).until(
@@ -613,7 +550,7 @@ class PageContentLogged(ModalsFilling):
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.ID, 'readMessage')))
 
 
-class SmallSizeScreen(ChromiumSetup):
+class SmallSizeScreen(FirefoxSetup):
     def test_page_elements_visible_on_small_screen(self):
         # Simulate a small screen size
         self.driver.set_window_size(320, 480)

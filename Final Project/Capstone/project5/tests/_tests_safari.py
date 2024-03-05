@@ -10,41 +10,6 @@ from capstone.models import User
 from lorem_text import lorem
 
 
-class ChromiumSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        options = webdriver.ChromeOptions()
-        # options.add_argument('--headless')  # Run Chromium in headless mode
-        # options.add_argument('--disable-gpu')  # Disable GPU acceleration
-        # options.add_argument('--no-sandbox')  # Disable sandbox mode
-        # options.add_argument('--disable-dev-shm-usage')  # Disable /dev/shm usage
-        cls.driver = webdriver.Chrome(options=options)
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
-
-
-class ChromeSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.driver = webdriver.Chrome()
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
-        
-
 class SafariSetup(TestCase):
     
     @classmethod
@@ -59,38 +24,8 @@ class SafariSetup(TestCase):
         cls.driver.quit()
         super().tearDownClass()
         
-        
-class FirefoxSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.driver = webdriver.Firefox()
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
       
-        
-class EdgeSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.driver = webdriver.Edge()
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
-     
-      
-class Alert(ChromiumSetup):
+class Alert(SafariSetup):
     
     def dismiss_alert(self):
         try:
@@ -104,7 +39,7 @@ class Alert(ChromiumSetup):
 class Registration(Alert):
 
     def setUp(self):
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Safari()
         super().setUp()
 
     def tearDown(self):
@@ -159,7 +94,7 @@ class Registration(Alert):
         return self.registered_user     
                 
         
-class ExternalLinks(ChromiumSetup):
+class ExternalLinks(SafariSetup):
     
     def verify_external_link(self, link):
         self.driver.get('http://localhost:8000')
@@ -527,8 +462,10 @@ class PageContentLogged(ModalsFilling):
         rand_content = lorem.words(10)
         
         #Let's generate specific unique phrases
-        WebDriverWait(self.driver, 3).until(
-                EC.element_to_be_clickable((By.ID, 'timelineEditButton'))).click()
+        post_edit_button = WebDriverWait(self.driver, 3).until(
+                EC.element_to_be_clickable((By.ID, 'timelineEditButton')))
+        self.driver.execute_script("arguments[0].scrollIntoView();", post_edit_button)
+        post_edit_button.click()
         print("Timeline Edit button found")
         
         #Checking if modal opened
@@ -613,7 +550,7 @@ class PageContentLogged(ModalsFilling):
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.ID, 'readMessage')))
 
 
-class SmallSizeScreen(ChromiumSetup):
+class SmallSizeScreen(SafariSetup):
     def test_page_elements_visible_on_small_screen(self):
         # Simulate a small screen size
         self.driver.set_window_size(320, 480)

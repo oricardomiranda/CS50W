@@ -28,66 +28,6 @@ class ChromiumSetup(TestCase):
     def tearDownClass(cls):
         cls.driver.quit()
         super().tearDownClass()
-
-
-class ChromeSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.driver = webdriver.Chrome()
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
-        
-
-class SafariSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.driver = webdriver.Safari()
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
-        
-        
-class FirefoxSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.driver = webdriver.Firefox()
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
-      
-        
-class EdgeSetup(TestCase):
-    
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.driver = webdriver.Edge()
-        cls.wait = WebDriverWait(cls.driver, 10)
-        cls.driver.maximize_window()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
      
       
 class Alert(ChromiumSetup):
@@ -102,14 +42,18 @@ class Alert(ChromiumSetup):
     
         
 class Registration(Alert):
-
+    
     def setUp(self):
-        self.driver = webdriver.Chrome()
         super().setUp()
+        self.driver = self.get_chrome_driver()
 
     def tearDown(self):
-        self.driver.quit()
         super().tearDown()
+        self.driver.quit()
+
+    def get_chrome_driver(self):
+        options = webdriver.ChromeOptions()
+        return webdriver.Chrome(options=options)
 
     def generate_random_string(self, length=8):
         letters = string.ascii_letters
@@ -527,8 +471,10 @@ class PageContentLogged(ModalsFilling):
         rand_content = lorem.words(10)
         
         #Let's generate specific unique phrases
-        WebDriverWait(self.driver, 3).until(
-                EC.element_to_be_clickable((By.ID, 'timelineEditButton'))).click()
+        post_edit_button = WebDriverWait(self.driver, 3).until(
+                EC.element_to_be_clickable((By.ID, 'timelineEditButton')))
+        self.driver.execute_script("arguments[0].scrollIntoView();", post_edit_button)
+        post_edit_button.click()
         print("Timeline Edit button found")
         
         #Checking if modal opened
