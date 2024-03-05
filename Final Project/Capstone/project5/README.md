@@ -1,8 +1,9 @@
 # Capstone
 
 Final Project of [CS50 Web Programming with Python and JavaScript](https://courses.edx.org/courses/course-v1:HarvardX+CS50W+Web/course/)
-
 [Full project specification](https://cs50.harvard.edu/web/2020/projects/final/capstone/)
+
+The main idea implemented in this project was to create a personal portfolio that would allow recruiters, colleagues and other coders to be able to reach me and check my work
 
 ## Setup
 First, clone this repository:
@@ -23,11 +24,16 @@ To run the development server:
 python manage.py runserver
 ```
 
-### Requirements
-
+## Requirements
 This website was built using [Django](https://github.com/django/django)
+The backend of this website is coded in Python
+The frontend of this website is codd in Javascript
 
+## Specifications
+### Layout
+This project's layout is based on my day to day work tool which is the Linux terminal.
+I took inspiration from my terminal customisation which was taken from [Pixegami](https://github.com/pixegami/terminal-profile)
 
-### Specifications
+![Pixegami's terminal inspired]()
 
 ### Testing
