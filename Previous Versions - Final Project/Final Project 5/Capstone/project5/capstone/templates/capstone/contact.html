@@ -1,0 +1,21 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+        <!-- Main content area -->
+            <div class="mx-auto"> <!--previous was col-lg-9  ml-2-->
+                <div class="body">
+                <!--Container elements in index.js-->
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if user.is_authenticated %}
+        <script src="{% static 'capstone/contact.js' %}"></script>
+    {% else %}
+        <script>
+            window.location.href = "/index.html";
+        </script>
+    {% endif %}
+{% endblock %}

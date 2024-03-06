@@ -1,0 +1,25 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+{% block body %}
+    <script>
+        // Set a variable based on whether the user is authenticated
+        const isUserAuthenticated = {{ user.is_authenticated|lower }};
+    </script>
+    <div class="container-fluid">
+        <div class="row">
+        <!-- Main content area -->
+            <div class="mx-auto"> <!--previous was col-lg-9  ml-2-->
+                <div class="body">
+                <!--Container elements in index.js-->
+                    <!-- Contact List Container -->
+                    <div id="messageContent" class="container-fluid all_post_view"></div>
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'capstone/index.js' %}" defer></script>
+
+        {% if user.is_authenticated %}
+            <script src="{% static 'capstone/contact.js' %}" defer></script>
+        {% endif %}
+
+{% endblock %}

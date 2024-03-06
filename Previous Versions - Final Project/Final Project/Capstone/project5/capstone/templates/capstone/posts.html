@@ -1,0 +1,68 @@
+{% extends "capstone/layout.html" %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Main content area -->
+            <div class="col-lg-9 ml-2">
+                <div class="body">
+                    <h1>whoamI</h1>
+                    <div><br><br></div>
+                    <div class="container" style="margin: 5 20px;">
+                        <div class="all_post_view">
+                            {% for post in page_posts %}
+                                {% if forloop.counter0|divisibleby:3 %}<div class="row">{% endif %}
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <a href="{% url 'profile' user_id=post.user.id %}">
+                                                <img src="https://source.unsplash.com/300x200/?nature" class="card-img-top" alt="..." style="width: 100%;">
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% if forloop.counter|divisibleby:3 or forloop.last %}</div>{% endif %}
+                            {% endfor %}
+                        </div>
+                        <!--Skills-->
+                        <h1>Tool Belt</h1>
+                        <div class="toolkit-icons-confortable-big centered">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/qa.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/shell.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/python.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/java.svg">
+                        </div>
+                        <div class="toolkit-icons-learning-mid centered">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/apple.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/ubuntu.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/github.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/javascript.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/html.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/css.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/c.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/git.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/mysql.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/vscode.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/intellij.svg">
+                            <img src="static/capstone/icons/All_logo_and_pictures-main/pycharm.svg">
+                        </div>
+
+                    </div>
+                    <nav aria-label="Page navigation example">
+                        <ul class="mx-5 pagination">
+                            {% if page_posts.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_posts.previous_page_number }}">Previous</a></li>
+                            {% endif %}
+                            {% if page_posts.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_posts.next_page_number }}">Next</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- Additional column for the timeline -->
+            <div class="col-lg-3" style="margin-left: auto; width: 10%;">
+                <!-- Timeline content was removed -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
