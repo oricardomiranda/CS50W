@@ -5,13 +5,46 @@ Final Project of [CS50 Web Programming with Python and JavaScript](https://cours
 
 The main idea implemented in this project was to create a personal portfolio that would allow recruiters, colleagues and other coders to be able to reach me and check my work
 
-## Setup
+
+# Distinctiveness and Complexity:
+
+My project satisfies the distinctiveness and complexity requirements by offering a unique and innovative approach to building a personal portfolio website. Here's why:
+
+1. **Unique Design Inspired by Linux Terminal:** The layout of my portfolio website is inspired by the Linux terminal, giving it a distinct and memorable aesthetic. This unique design sets it apart from traditional portfolio websites and makes it stand out to visitors.
+
+2. **Interactive Features:** I have implemented various interactive features such as clickable icons, dynamic navigation bars, and modal forms for contact and referral submissions. These features enhance user engagement and provide a modern and immersive browsing experience.
+
+3. **Dynamic Content Management:** Users can register, log in, and perform actions such as adding, editing, and deleting timeline posts and referrals. This dynamic content management system adds complexity to the project and allows users to customize their experience on the website.
+
+4. **Automated Testing:** To ensure the robustness of my application, I have implemented automated testing using Selenium WebDriver. This demonstrates a commitment to quality assurance and adds a layer of complexity to the project's development process.
+
+Overall, my project combines unique design elements, interactive features, dynamic content management, and automated testing to create a distinct and complex personal portfolio website.
+
+**Contents of Each File:**
+
+- **`README.md`:** Contains project writeup, including distinctiveness and complexity analysis, file descriptions, instructions for running the application, and additional information.
+
+- **`requirements.txt`:** Lists all Python packages required to run the web application.
+
+- **`Capstone/`:** Main directory containing the Django project files.
+
+- **`Capstone/project5/`:** Django app directory containing application-specific files.
+
+- **`Capstone/project5/static/` and `Capstone/project5/templates/`:** Directories for static files (e.g., CSS, JavaScript) and HTML templates used in the application.
+
+- **`Capstone/project5/tests.py`:** Python script containing automated tests using Selenium WebDriver to ensure the functionality and reliability of the application.
+
+- **Other files:** Various Django-related files such as `models.py`, `views.py`, `urls.py`, and `forms.py` for defining models, views, URLs, and forms, respectively.
+
+
+
+# How to run the application
 First, clone this repository:
 
 ```bash
 git clone https://github.com/oricardomiranda/CS50W/tree/34dedce4af8e1cba0112960b6c1939c4cf67d32a/Final%20Project/
 
-cd Capstone/project5
+cd capstone
 ```
 
 Install dependencies:
@@ -24,12 +57,16 @@ To run the development server:
 python manage.py runserver
 ```
 
+Access the application in your web browser at http://localhost:8000
+
 ## Requirements
 This website was built using [Django](https://github.com/django/django)
 The backend of this website is coded in Python
 The frontend of this website is codd in Javascript
 The application must be mobile-responsive
 
+
+# Additional Information
 
 ## Specifications
 
@@ -57,6 +94,17 @@ This layout is also mobile compatible
 - The top bar becomes a dropdown menu and the left and right bars go to the top
 
 ### Color palette
+
+| Color          | Hex                                                                |
+| -------------- | ------------------------------------------------------------------ |
+| Navy           | ![#0a192f](https://via.placeholder.com/10/0a192f?text=+) `#0a192f` |
+| Light Navy     | ![#172a45](https://via.placeholder.com/10/0a192f?text=+) `#172a45` |
+| Lightest Navy  | ![#303C55](https://via.placeholder.com/10/303C55?text=+) `#303C55` |
+| Slate          | ![#8892b0](https://via.placeholder.com/10/8892b0?text=+) `#8892b0` |
+| Light Slate    | ![#a8b2d1](https://via.placeholder.com/10/a8b2d1?text=+) `#a8b2d1` |
+| Lightest Slate | ![#ccd6f6](https://via.placeholder.com/10/ccd6f6?text=+) `#ccd6f6` |
+| White          | ![#e6f1ff](https://via.placeholder.com/10/e6f1ff?text=+) `#e6f1ff` |
+| Green          | ![#64ffda](https://via.placeholder.com/10/64ffda?text=+) `#64ffda` |
 
 ### Top Navigation Bar
 With two options for logged or unlogged, this bar allows the user to navigate and interact with the page
@@ -173,7 +221,7 @@ To prevent bad intentions, the owner has a way to remove any referrals using the
 
 - After clicking the Mark As Read button, the text becomes duller
 
-![Messages](https://github.com/oricardomiranda/CS50W/blob/main/Final%20Project/Capstone/project5/extras/Captura%20de%20ecrã%202024-03-05,%20às%2017.10.41.png?raw=true)
+![Messages](https://github.com/oricardomiranda/CS50W/blob/main/Final%20Project/capstone/project5/extras/Captura%20de%20ecrã%202024-03-05,%20às%2017.10.41.png?raw=true)
 
 When loading the logged page, if there are unread messages, an alert is displayed
 
